@@ -22,7 +22,7 @@ type UserRequest struct {
 
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
-	Bio       string `json:"biography"`
+	Bio       string `json:"bio"`
 }
 
 func jsonResponse[K comparable, V any](w http.ResponseWriter, status int, response map[K]V) {
@@ -76,7 +76,7 @@ func (app *application) addUser(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) getAllUsers(w http.ResponseWriter, r *http.Request) {
 	jsonResponse(w, http.StatusOK, map[string]any{
-		"user": app.db.FindAll(),
+		"users": app.db.FindAll(),
 	})
 }
 
@@ -190,7 +190,7 @@ func (app *application) bindUserRouter() *chi.Mux {
 
 func (app *application) bindRoutes() {
 	apiRouter := chi.NewRouter()
-	apiRouter.Mount("/", app.bindUserRouter())
+	apiRouter.Mount("/users", app.bindUserRouter())
 
 	app.router.Mount("/api", apiRouter)
 }
